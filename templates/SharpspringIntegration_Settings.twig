@@ -1,0 +1,26 @@
+{#
+/**
+ * SharpSpring Integration plugin for Craft CMS
+ *
+ * SharpSpring Integration Settings.twig
+ *
+ * @author    The Refinery
+ * @copyright Copyright (c) 2019 The Refinery
+ * @link      https://the-refinery.io
+ * @package   SharpspringIntegration
+ * @since     0.1
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% includeCssResource "sharpspringintegration/css/SharpspringIntegration_Style.css" %}
+{% includeJsResource "sharpspringintegration/js/SharpspringIntegration_Script.js" %}
+
+{{ forms.textField({
+    label: 'Some Setting',
+    instructions: 'Enter some setting here.',
+    id: 'someSetting',
+    name: 'someSetting', 
+    value: settings['someSetting']})
+}}

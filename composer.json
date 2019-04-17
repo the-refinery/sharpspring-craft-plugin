@@ -1,0 +1,16 @@
+{
+    "name": "the-reifnery/sharpspringintegration",
+    "description": "A CraftCMS plugin to integrate with SharpSpring CRM",
+    "type": "craftcms-plugin",
+    "require": {},
+    "config": {
+        "optimize-autoloader": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Craft\\SharpSpringIntegration\\Interfaces\\": "interfaces/",
+            "Craft\\SharpSpringIntegration\\Builders\\": "builders/",
+            "Craft\\SharpSpringIntegration\\Responses\\": "responses/"
+        }
+    }
+}
