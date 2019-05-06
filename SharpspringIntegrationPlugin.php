@@ -240,4 +240,11 @@ class SharpspringIntegrationPlugin extends BasePlugin
         return $settings;
     }
 
+    public function registerSiteRoutes()
+    {
+      return array(
+        'sharpspringintegration/pushAsync' => array('action' => 'sharpspringIntegration/pushAsync'),
+      );
+    }
+
 }
