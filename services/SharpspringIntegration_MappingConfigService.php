@@ -9,6 +9,38 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 		$this->setupFreeformMappings();
 	}
 
+
+  public function getCustomMapping($mappingKey) {
+		$mainMapping = craft()
+			->config
+			->get(
+				"customMappings",
+				"sharpspringintegration"
+			);
+
+		if(is_null($mainMapping)) {
+			throw new Exception("customMapping not found in configuration file.");
+		}
+
+		if(is_null($mainMapping[$mappingKey])) {
+			throw new Exception("Custom SharpSpring mapping for '{$mappingKey}' not found. Please check integration configuration file for details.");
+		}
+
+		$customMapping = $mainMapping[$mappingKey];
+
+		$newMapping = [];
+
+		$newMapping["credentialSet"] = $customMapping["credentialSet"] ?? "*";
+		$newMapping["map"] = [];
+
+		foreach($customMapping["map"] as $key => $value) {
+			$newMapping["map"][$key] = $value;
+		}
+
+		return $newMapping;
+
+	}
+
 	private function setupFreeformMappings() {
 		$freeformMappingSetup = craft()
 			->config
