@@ -129,17 +129,33 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 									}
 								}
 
-								$response = craft()
-									->sharpspringIntegration_apiClient
-									->upsertSingleLead(
-										$sharpSpringData,
-										$credentialSet,
-										null
-									);
+								$publishMethod = $freeformHandleConfig["publishMethod"] ?? "api-lead";
+
+								switch($publishMethod) {
+									case "native-form":
+										$response = craft()
+											->sharpspringIntegration_nativeFormClient
+											->postData(
+												$sharpSpringData,
+												$freeformHandleConfig["nativeFormEndpoint"]
+											);
+										break;
+									case "api-lead":
+										$response = craft()
+											->sharpspringIntegration_apiClient
+											->upsertSingleLead(
+												$sharpSpringData,
+												$credentialSet,
+												null
+											);
+										break;
+									default:
+										SharpspringIntegrationPlugin::log("WARNING: API Publishing method '".$publishMethod."' is not a valid publish type.", LogLevel::Warning, true);
+								}
 
 								if($response->hasErrors()) {
 									SharpspringIntegrationPlugin::log(
-										"There was an error posting data to SharpSpring from Freeform '".$freeformHandle."': \n\nRequest:\n========\n".json_encode($leadsParams)."\n\nError:\n=======\n".json_encode($response->getError())."\n\n",
+										"There was an error posting data to SharpSpring from Freeform '".$freeformHandle."': \n\nRequest:\n========\n\nError:\n=======\n".json_encode($response->getError())."\n\n",
 										LogLevel::Error,
 										true
 									);
