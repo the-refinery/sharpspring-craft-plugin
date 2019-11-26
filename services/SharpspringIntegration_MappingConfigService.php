@@ -114,6 +114,9 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 											case "hidden":
 												$sharpSpringData[$sharpSpringKey] = $submissionModel->__get($entryField)->getValue();
 												break;
+											case "checkbox_group":
+												$sharpSpringData[$sharpSpringKey] = implode(",", $submissionModel->__get($entryField)->getValue());
+												break;
 											case "checkbox":
 												if($submissionModel->__get($entryField)->getValue()) {
 													$value = true;
