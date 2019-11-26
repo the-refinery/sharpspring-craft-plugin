@@ -120,13 +120,13 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 											case "datetime":
 												$datetimeType = $submissionModel->__get($entryField)->getDateTimeType();
 
-												if($datetimeType == "date") {
+												if($datetimeType == "date" && !empty($submissionModel->__get($entryField)->getValue())) {
 													$parsedDate = date_parse($submissionModel->__get($entryField)->getValue());
 													$year = $parsedDate["year"];
 													$month = str_pad($parsedDate["month"], 2, "0", STR_PAD_LEFT);
 													$day = str_pad($parsedDate["day"], 2, "0", STR_PAD_LEFT);
 													$sharpSpringData[$sharpSpringKey] = $year."-".$month."-".$day;
-												} else if ($datetimeType == "datetime") {
+												} else if ($datetimeType == "datetime" && !empty($submissionModel->__get($entryField)->getValue())) {
 													$parsedDate = date_parse($submissionModel->__get($entryField)->getValue());
 													$year = $parsedDate["year"];
 													$month = str_pad($parsedDate["month"], 2, "0", STR_PAD_LEFT);
