@@ -117,6 +117,29 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 											case "checkbox_group":
 												$sharpSpringData[$sharpSpringKey] = implode(",", $submissionModel->__get($entryField)->getValue());
 												break;
+											case "datetime":
+												$datetimeType = $submissionModel->__get($entryField)->getDateTimeType();
+
+												if($datetimeType == "date") {
+													$parsedDate = date_parse($submissionModel->__get($entryField)->getValue());
+													$year = $parsedDate["year"];
+													$month = str_pad($parsedDate["month"], 2, "0", STR_PAD_LEFT);
+													$day = str_pad($parsedDate["day"], 2, "0", STR_PAD_LEFT);
+													$sharpSpringData[$sharpSpringKey] = $year."-".$month."-".$day;
+												} else if ($datetimeType == "datetime") {
+													$parsedDate = date_parse($submissionModel->__get($entryField)->getValue());
+													$year = $parsedDate["year"];
+													$month = str_pad($parsedDate["month"], 2, "0", STR_PAD_LEFT);
+													$day = str_pad($parsedDate["day"], 2, "0", STR_PAD_LEFT);
+													$hour = str_pad($parsedDate["hour"], 2, "0", STR_PAD_LEFT);
+													$minute = str_pad($parsedDate["minute"], 2, "0", STR_PAD_LEFT);
+													$second = str_pad($parsedDate["second"], 2, "0", STR_PAD_LEFT);
+
+													$sharpSpringData[$sharpSpringKey] = $year."-".$month."-".$day." ".$hour.":".$minute.":".$second;
+												} else {
+													SharpspringIntegrationPlugin::log("WARNING: Freeform field '".$entryField."' type '".$fieldType."' for form handle '".$freeformHandle."' is not a known datetime type to parse.", LogLevel::Warning, true);
+												}
+												break;
 											case "checkbox":
 												if($submissionModel->__get($entryField)->getValue()) {
 													$value = true;
