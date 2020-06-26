@@ -1,6 +1,6 @@
 <?php
 /**
- * SharpSpring Integration plugin for Craft CMS
+ * SharpSpring Integration plugin for Craft CMS 3.x
  *
  * SharpspringIntegration Service
  *
@@ -18,10 +18,12 @@
  * @since     0.1
  */
 
-namespace Craft;
+namespace sharpspring\SharpSpringIntegration\Services;
 
-use Craft\SharpSpringIntegration\Builders\ApiClientBuilder as ApiClientBuilder;
-use Craft\SharpSpringIntegration\Builders\RequestBuilder as RequestBuilder;
+use Craft;
+
+use sharpspring\SharpSpringIntegration\Builders\ApiClientBuilder as ApiClientBuilder;
+use sharpspring\SharpSpringIntegration\Builders\RequestBuilder as RequestBuilder;
 
 class SharpspringIntegration_ApiClientService extends BaseApplicationComponent
 {
@@ -30,7 +32,7 @@ class SharpspringIntegration_ApiClientService extends BaseApplicationComponent
      *
      * From any other plugin file, call it like this:
      *
-     *     craft()->sharpspringIntegration->exampleService()
+     *     \Craft::$app->sharpspringIntegration->exampleService()
      */
     public function build() {
         return new ApiClientBuilder();
@@ -47,7 +49,7 @@ class SharpspringIntegration_ApiClientService extends BaseApplicationComponent
                 )
             );
 
-            $response = craft()
+            $response = \Craft::$app
                 ->sharpspringIntegration_apiClient
                 ->build()
                 ->withCredentialSet($credentialSet)
@@ -85,7 +87,7 @@ class SharpspringIntegration_ApiClientService extends BaseApplicationComponent
                     $leadsParams
                 );
 
-            $response = craft()
+            $response = \Craft::$app
                 ->sharpspringIntegration_apiClient
                 ->build()
                 ->withCredentialSet($credentialSet)

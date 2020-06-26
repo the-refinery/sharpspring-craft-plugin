@@ -1,5 +1,5 @@
 <?php
-namespace Craft\SharpSpringIntegration\Responses;
+namespace sharpspring\SharpSpringIntegration\Responses;
 
 class ApiResponse
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Craft;
+namespace sharpspring\SharpSpringIntegration\Services;
 
-use Craft\SharpSpringIntegration\Responses\NativeFormResponse;
+use sharpspring\SharpSpringIntegration\Responses\NativeFormResponse;
 
 use Guzzle\Http\Client;
 use Guzzle\Http\Exception\BadResponseException;

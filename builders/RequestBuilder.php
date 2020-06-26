@@ -1,5 +1,5 @@
 <?php
-namespace Craft\SharpSpringIntegration\Builders;
+namespace sharpspring\SharpSpringIntegration\Builders;
 
 class RequestBuilder
 {

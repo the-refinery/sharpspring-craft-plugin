@@ -21,15 +21,24 @@
  * @since     0.1
  */
 
-namespace Craft;
+namespace sharpspring;
 require 'vendor/autoload.php';
+
+use craft\events\RegisterUrlRulesEvent;
+use craft\web\UrlManager;
+use yii\base\Event;
+
+Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_SITE_URL_RULES, function(RegisterUrlRulesEvent $event) {
+    $event->rules['sharpspringintegration/pushAsync'] = ['template' => 'cocktails/_edit'];
+    $event->rules['cocktails/<widgetId:\d+>'] = 'sharpspringIntegration/pushAsync';
+});
 
 class SharpspringIntegrationPlugin extends BasePlugin
 {
     /**
      * Called after the plugin class is instantiated; do any one-time initialization here such as hooks and events:
      *
-     * craft()->on('entries.saveEntry', function(Event $event) {
+     * \Craft::$app->on('entries.saveEntry', function(Event $event) {
      *    // ...
      * });
      *
@@ -43,9 +52,9 @@ class SharpspringIntegrationPlugin extends BasePlugin
     {
         parent::init();
 
-        craft()->sharpspringIntegration_mappingConfig->setup();
+        \Craft::$app->sharpspringIntegration_mappingConfig->setup();
 
-        foreach (glob(craft()->path->getConfigPath()."sharpspringintegration/*_extension.php") as $filename)
+        foreach (glob(\Craft::$app->path->getConfigPath()."sharpspringintegration/*_extension.php") as $filename)
         {
             SharpspringIntegrationPlugin::log(
                 "Including SharpSpring Integration Extension file: ".$filename,
@@ -56,12 +65,12 @@ class SharpspringIntegrationPlugin extends BasePlugin
         }
 
         foreach (get_declared_classes() as $className) {
-            if (in_array('Craft\SharpSpringIntegration\Interfaces\EventInterface', class_implements($className))) {
+            if (in_array('sharpSpring\SharpSpringIntegration\Interfaces\EventInterface', class_implements($className))) {
                 $r = new \ReflectionClass($className);
                 $staticInstance = $r->newInstanceWithoutConstructor();
                 $eventHandle = $staticInstance->getEventHandle();
 
-                craft()->on(
+                \Craft::$app->on(
                     $eventHandle,
                     function(Event $event) use ($className) {
                         $instance = new $className();
@@ -101,7 +110,7 @@ class SharpspringIntegrationPlugin extends BasePlugin
      */
     public function getDocumentationUrl()
     {
-        return 'https://github.com/https://github.com/the-refinery/sharpspringintegration/blob/master/README.md';
+        return 'https://github.com/https://github.com/the-refinery/sharpspringintegration/blob/craft-3/README.md';
     }
 
     /**
@@ -113,7 +122,7 @@ class SharpspringIntegrationPlugin extends BasePlugin
      */
     public function getReleaseFeedUrl()
     {
-        return 'https://raw.githubusercontent.com/https://github.com/the-refinery/sharpspringintegration/master/releases.json';
+        return 'https://raw.githubusercontent.com/https://github.com/the-refinery/sharpspringintegration/craft-3/CHANGELOG.md';
     }
 
     /**
@@ -123,20 +132,12 @@ class SharpspringIntegrationPlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '0.1';
+        return '3.0';
     }
 
-    /**
-     * As of Craft 2.5, Craft no longer takes the whole site down every time a plugin’s version number changes, in
-     * case there are any new migrations that need to be run. Instead plugins must explicitly tell Craft that they
-     * have new migrations by returning a new (higher) schema version number with a getSchemaVersion() method on
-     * their primary plugin class:
-     *
-     * @return string
-     */
     public function getSchemaVersion()
     {
-        return '0.1';
+        return '3.0';
     }
 
     /**
@@ -220,7 +221,7 @@ class SharpspringIntegrationPlugin extends BasePlugin
      */
     public function getSettingsHtml()
     {
-       return craft()->templates->render('sharpspringintegration/SharpspringIntegration_Settings', array(
+       return \Craft::$app->view->renderTemplate('sharpspringintegration/SharpspringIntegration_Settings', array(
            'settings' => $this->getSettings()
        ));
     }
@@ -238,13 +239,6 @@ class SharpspringIntegrationPlugin extends BasePlugin
         // Modify $settings here...
 
         return $settings;
-    }
-
-    public function registerSiteRoutes()
-    {
-      return array(
-        'sharpspringintegration/pushAsync' => array('action' => 'sharpspringIntegration/pushAsync'),
-      );
     }
 
 }

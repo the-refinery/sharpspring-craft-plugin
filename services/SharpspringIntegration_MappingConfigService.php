@@ -1,6 +1,6 @@
 <?php
 
-namespace Craft;
+namespace sharpspring\SharpSpringIntegration\Services;
 
 class SharpspringIntegration_MappingConfigService extends BaseApplicationComponent
 {
@@ -11,7 +11,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 
 
   public function getCustomMapping($mappingKey) {
-		$mainMapping = craft()
+		$mainMapping = \Craft::$app
 			->config
 			->get(
 				"customMappings",
@@ -42,7 +42,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 	}
 
 	private function setupFreeformMappings() {
-		$freeformMappingSetup = craft()
+		$freeformMappingSetup = \Craft::$app
 			->config
 			->get(
 				"freeformSubmissionMappings",
@@ -57,7 +57,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 					$event = $freeformHandleConfig['event'];
 				}
 
-				craft()->on(
+				\Craft::$app->on(
 					$event,
 					function(Event $event) use ($freeformHandle, $freeformHandleConfig) {
 						$submissionModel = $event->params["model"];
@@ -159,7 +159,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 
 								switch($publishMethod) {
 									case "native-form":
-										$response = craft()
+										$response = \Craft::$app
 											->sharpspringIntegration_nativeFormClient
 											->postData(
 												$sharpSpringData,
@@ -167,7 +167,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 											);
 										break;
 									case "api-lead":
-										$response = craft()
+										$response = \Craft::$app
 											->sharpspringIntegration_apiClient
 											->upsertSingleLead(
 												$sharpSpringData,
@@ -197,7 +197,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 	}
 
 	private function setupEntryMappings() {
-		$entryMappingSetup = craft()
+		$entryMappingSetup = \Craft::$app
 			->config
 			->get(
 				"craftEntryMappings",
@@ -212,7 +212,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 					$event = $entryTypeHandleConfig['event'];
 				}
 
-				craft()->on(
+				\Craft::$app->on(
 					$event,
 					function(Event $event) use ($entryTypeHandle, $entryTypeHandleConfig) {
 						$entry = $event->params["entry"];
@@ -246,7 +246,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 
 								if(array_key_exists('map', $entryTypeHandleConfig)) {
 									foreach($entryTypeHandleConfig['map'] as $entryField => $sharpSpringKey) {
-										$fieldType = craft()->fields->getFieldByHandle($entryField)->type;
+										$fieldType = \Craft::$app->fields->getFieldByHandle($entryField)->type;
 
 										switch($fieldType) {
 											case "PlainText":
@@ -269,7 +269,7 @@ class SharpspringIntegration_MappingConfigService extends BaseApplicationCompone
 									}
 								}
 
-								$response = craft()
+								$response = \Craft::$app
 									->sharpspringIntegration_apiClient
 									->upsertSingleLead(
 										$sharpSpringData,

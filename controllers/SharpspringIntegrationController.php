@@ -25,7 +25,7 @@
  * @since     0.1
  */
 
-namespace Craft;
+namespace sharpspring\SharpSpringIntegration\Controllers;
 
 class SharpspringIntegrationController extends BaseController
 {
@@ -49,7 +49,7 @@ class SharpspringIntegrationController extends BaseController
     public function actionPushAsync()
     {
         $this->requirePostRequest();
-        $data = json_decode(craft()->request->getRawBody(), true);
+        $data = json_decode(\Craft::$app->request->getRawBody(), true);
 
         // Require a "mapping" key in the JSON body
         if(!array_key_exists("mapping", $data))
@@ -66,7 +66,7 @@ class SharpspringIntegrationController extends BaseController
         }
 
         // Always look in the custom mappings for any AJAX-based calls
-        $config = craft()
+        $config = \Craft::$app
 			->config
 			->get(
 				"customMappings",
@@ -106,7 +106,7 @@ class SharpspringIntegrationController extends BaseController
             );
         }
 
-        $configMapping = craft()
+        $configMapping = \Craft::$app
             ->sharpspringIntegration_mappingConfig
             ->getCustomMapping($data["mapping"]);
 
@@ -140,7 +140,7 @@ class SharpspringIntegrationController extends BaseController
             }
 
             try {
-                $response = craft()
+                $response = \Craft::$app
                     ->sharpspringIntegration_apiClient
                     ->upsertSingleLead(
                         $sharpSpringData,

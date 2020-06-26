@@ -1,5 +1,5 @@
 <?php
-namespace Craft\SharpSpringIntegration\Builders;
+namespace sharpspring\SharpSpringIntegration\Builders;
 
 // use Craft\Craft as Craft;
 use Craft;
@@ -31,7 +31,7 @@ class ApiClientBuilder
   }
 
   public function submit() {
-    $allCredentials = Craft\Craft::app()->config->get('credentialSets', 'sharpspringintegration');
+    $allCredentials = Craft\Craft::app()->config->sharpspringintegration->credentialSets);
     $useCredentials = $allCredentials[$this->credentialSet];
 
     if(!array_key_exists('accountID', $useCredentials)) {

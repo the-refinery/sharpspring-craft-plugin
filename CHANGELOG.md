@@ -1,7 +1,11 @@
-# SharpSpring Integration Changelog
+# Changelog
 
-## 0.1 -- 2019-04-10
+## 3.0- 2019-04-10
 
-* Initial release
+### Added
+- Update to Craft 3
 
-Brought to you by [The Refinery](https://the-refinery.io)
+## 0.1 - 2019-04-10
+
+### Added
+- Initial release
