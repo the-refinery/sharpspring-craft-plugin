@@ -1,5 +1,5 @@
 {
-    "name": "the-reifnery/sharpspringintegration",
+    "name": "the-refinery/sharpspringintegration",
     "description": "A CraftCMS plugin to integrate with SharpSpring CRM",
     "type": "craftcms-plugin",
     "require": {},

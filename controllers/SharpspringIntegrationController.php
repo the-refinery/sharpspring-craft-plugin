@@ -22,7 +22,7 @@
  * @copyright Copyright (c) 2019 The Refinery
  * @link      https://the-refinery.io
  * @package   SharpspringIntegration
- * @since     0.1
+ * @since     3.0
  */
 
 namespace sharpspring\SharpSpringIntegration\Controllers;
